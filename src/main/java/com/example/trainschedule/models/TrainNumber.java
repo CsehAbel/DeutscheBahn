@@ -6,7 +6,7 @@ package com.example.trainschedule.models;
 
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = {"trainNumber"}, name = "trainNumbers")
+@XmlType( name = "trainNumbers")
 public class TrainNumber {
 
     private String trainNumber;

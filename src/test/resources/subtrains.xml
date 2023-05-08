@@ -1,0 +1,20 @@
+<subtrains>
+    <subtrain>
+        <destination>
+            <destinationName>Koblenz</destinationName>
+            <destinationVia>
+                <item>Düsseldorf</item>
+                <item>Köln</item>
+                <item>Bonn</item>
+                <item>Remagen</item>
+                <item>Andernach</item>
+            </destinationVia>
+        </destination>
+        <sections>
+            <identifier>D</identifier>
+            <identifier>C</identifier>
+            <identifier>B</identifier>
+            <identifier>A</identifier>
+        </sections>
+    </subtrain>
+</subtrains>

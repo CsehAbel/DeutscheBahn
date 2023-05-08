@@ -19,14 +19,19 @@ package com.example.trainschedule.models;
 //                      <traintype>IC</traintype>
 //                  </traintypes>
 //              </train>
+//</trains>
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(propOrder = {"trainNumbers", "anno", "time", "additionalText", "subtrains", "waggons", "traintypes"}, name = "train")
+@XmlType(name = "train")
 public class Train {
 
-    private List<TrainNumber> trainNumbers;
+        @XmlElementWrapper(name = "trainNumbers")
+        @XmlElement(name = "trainNumber")
+        private List<TrainNumber> trainNumbers;
         private String anno;
         private String time;
         private String additionalText;

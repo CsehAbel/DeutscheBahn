@@ -9,12 +9,18 @@ package com.example.trainschedule.models;
  //							</destination>
 
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = {"destinationName", "destinationVia"}, name = "destination")
+@XmlType( name = "destination")
 public class Destination {
 
+    private String uuid;
+
+    @XmlElement(name = "destinationName")
     private String destinationName;
+
+    @XmlElement(name = "destinationVia")
     private String destinationVia;
 
     public Destination() {
@@ -23,6 +29,14 @@ public class Destination {
     public Destination(String destinationName, String destinationVia) {
         this.destinationName = destinationName;
         this.destinationVia = destinationVia;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getDestinationName() {

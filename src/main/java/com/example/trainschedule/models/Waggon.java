@@ -13,13 +13,16 @@ package com.example.trainschedule.models;
 //<length>2</length>
 //</waggon>
 
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
-@XmlType(propOrder = {"position", "isWaggon", "sections", "number", "type", "symbols", "differentDestination", "length"}, name = "waggon")
+@XmlType(name = "waggon")
 public class Waggon {
 
         private int position;
+
         private int isWaggon;
+
+        @XmlElementWrapper(name = "sections")
         private java.util.List<Section> sections;
         private String number;
         private String type;
@@ -53,13 +56,16 @@ public class Waggon {
             return isWaggon;
         }
 
+
         public void setIsWaggon(int isWaggon) {
             this.isWaggon = isWaggon;
         }
 
+
         public java.util.List<Section> getSections() {
             return sections;
         }
+
 
         public void setSections(java.util.List<Section> sections) {
             this.sections = sections;

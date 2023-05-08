@@ -11,14 +11,18 @@ package com.example.trainschedule.models;
 //		</track>
 //</tracks>
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(propOrder = {"name", "number", "trains"}, name = "track")
+@XmlType( name = "track")
 public class Track {
 
         private String name;
         private int number;
+
+        @XmlElementWrapper(name = "trains")
         private List<Train> trains;
 
         public Track() {

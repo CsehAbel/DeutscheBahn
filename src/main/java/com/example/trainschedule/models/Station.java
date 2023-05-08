@@ -11,6 +11,8 @@ package com.example.trainschedule.models;
 //<tracks>...</tracks>
 //</station>
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class Station {
     private String shortcode;
     private String name;
     private Validity validity;
+
+    @XmlElementWrapper(name = "tracks")
     private List<Track> tracks;
 
     public Station() {

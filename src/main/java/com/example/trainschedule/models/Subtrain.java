@@ -18,17 +18,21 @@ package com.example.trainschedule.models;
 //</subtrains>
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(propOrder = {"destination", "sections"}, name = "subtrain")
+@XmlType(name = "subtrain")
 public class Subtrain {
 
     @XmlElement(name = "destination")
     private Destination destination;
 
-    @XmlElement(name = "sections")
+    @XmlElementWrapper(name = "sections")
+    @XmlElement(name = "section")
     private List<Section> sections;
+
+    private String uuid;
 
     public Subtrain() {
     }
@@ -36,6 +40,14 @@ public class Subtrain {
     public Subtrain(Destination destination, List<Section> sections) {
         this.destination = destination;
         this.sections = sections;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Destination getDestination() {

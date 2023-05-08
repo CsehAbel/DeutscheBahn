@@ -9,16 +9,25 @@ package com.example.trainschedule.models;
 
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = {"identifier"}, name = "section")
+@XmlType( name = "section")
 public class Section {
+
+        private String uuid;
 
         private String identifier;
 
         public Section() {
         }
-
         public Section(String identifier) {
             this.identifier = identifier;
+        }
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
         }
 
         public String getIdentifier() {

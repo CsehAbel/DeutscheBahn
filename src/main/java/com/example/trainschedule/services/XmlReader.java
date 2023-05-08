@@ -13,16 +13,16 @@ import java.io.File;
 public class XmlReader {
     //load a file from resources folder and unmarshal it to an object
 
-    @PostConstruct
-    public void init() {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Station.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Station trainSchedule = (Station) jaxbUnmarshaller.unmarshal(new File("src/main/resources/trainSchedule.xml"));
-            System.out.println(trainSchedule);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        try {
+//            JAXBContext jaxbContext = JAXBContext.newInstance(Station.class);
+//            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//            Station trainSchedule = (Station) jaxbUnmarshaller.unmarshal(new File("src/main/resources/trainSchedule.xml"));
+//            System.out.println(trainSchedule);
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

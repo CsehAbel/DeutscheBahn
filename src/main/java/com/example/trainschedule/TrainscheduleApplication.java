@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TrainscheduleApplication {
 
+
+
     public static void main(String[] args) {
         SpringApplication.run(TrainscheduleApplication.class, args);
     }

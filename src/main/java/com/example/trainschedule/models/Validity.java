@@ -7,7 +7,7 @@ package com.example.trainschedule.models;
 
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = {"from", "to"}, name = "validity")
+@XmlType( name = "validity")
 public class Validity {
 
         private String from;
