@@ -86,10 +86,21 @@ public class TrainDeserializeTest {
                     Object obj=this.createWaggon(position,isWaggon,sections,number,type,symbols,differentDestination,length);
                     objectsList.add(obj);
                 }
+                else if(element.getNodeName().equals("identifier")){
+                    String identifier=element.getTextContent();
+                    Object obj=this.createSection(identifier);
+                    objectsList.add(obj);
+                }
 
 
             }
         }
+    }
+
+    private Object createSection(String identifier) {
+        Section section = new Section();
+        section.setIdentifier(identifier);
+        return section;
     }
 
     private Object createWaggon(Integer position, Integer isWaggon, List<Object> sections, String number, String type, String symbols, String differentDestination, Integer length) {
@@ -98,6 +109,9 @@ public class TrainDeserializeTest {
         waggon.setIsWaggon(isWaggon);
         //Cast the list of objects to a list of Sections
         List<Section> sections1 = new ArrayList<>();
+        for (Object obj:sections){
+            sections1.add((Section) obj);
+        }
         waggon.setSections(sections1);
         waggon.setNumber(number);
         waggon.setType(type);
