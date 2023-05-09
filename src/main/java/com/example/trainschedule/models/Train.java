@@ -29,6 +29,7 @@ import java.util.List;
 @XmlType(name = "train")
 public class Train {
 
+        private String uuid;
         @XmlElementWrapper(name = "trainNumbers")
         @XmlElement(name = "trainNumber")
         private List<TrainNumber> trainNumbers;
@@ -50,6 +51,14 @@ public class Train {
             this.subtrains = subtrains;
             this.waggons = waggons;
             this.traintypes = traintypes;
+        }
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
         }
 
         public List<TrainNumber> getTrainNumbers() {
