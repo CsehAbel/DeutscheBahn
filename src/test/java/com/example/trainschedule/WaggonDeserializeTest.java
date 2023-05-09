@@ -27,7 +27,7 @@ import java.util.UUID;
 
 
 @SpringBootTest
-class TrainscheduleApplicationTests {
+class WaggonDeserializeTest {
 
     @Test
     void contextLoads() {
@@ -84,24 +84,24 @@ class TrainscheduleApplicationTests {
         Document document = builder.parse(inputStream);
 
         NodeList nodeList = document.getDocumentElement().getChildNodes();
-        List<Subtrain> subtrains = parseSubtrains(nodeList, "subtrain");
+        List<Object> subtrains = parseSubtrains(nodeList, "subtrain");
         assert subtrains.size()>0;
     }
 
     @Autowired
     SubtrainFactory subtrainFactory;
 
-    public List<Subtrain> parseSubtrains(NodeList nodeList, String tagName) {
-        List<Subtrain> objects = new ArrayList<>();
+    public List<Object> parseSubtrains(NodeList nodeList, String tagName) {
+        List<Object> objects = new ArrayList<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if(node.getNodeType()==Node.ELEMENT_NODE) {
                 Element element = (Element) node;
                 if (element.getNodeName().equals(tagName)) {
                     String type = element.getNodeName();
-                    Destination destination = this.parseDestination(element.getElementsByTagName("destination"), "destination");
+                    Destination destination = new Destination();//this.parseDestination(element.getElementsByTagName("destination"), "destination");
                     List<Section> sections = this.parseSections(element.getElementsByTagName("sections"), "section");
-                    Subtrain obj = this.createSubtrain(type, destination, sections);//subtrainFactory.createSubtrain(tagName, destination, sections);
+                    Object obj = this.createSubtrain(type, destination, sections);//subtrainFactory.createSubtrain(tagName, destination, sections);
                     objects.add(obj);
                 }
             }
@@ -116,7 +116,8 @@ class TrainscheduleApplicationTests {
             if(node.getNodeName().equals(tagName)){
                 Element element = (Element) node;
                 if(element.getNodeName().equals(tagName)){
-                    String destinationName = element.getAttribute("destinationName");
+
+                    String destinationName = element.getElementsByTagName("destinationName").item(0).getFirstChild().getTextContent();
                     String destinationVia = element.getAttribute("destinationVia");
                     destination = this.createDestination(destinationName,destinationVia);
                 }
@@ -166,7 +167,7 @@ class TrainscheduleApplicationTests {
         }
     }
 
-    public Subtrain createSubtrain(String type, Destination destination, List<Section> sections) {
+    public Object createSubtrain(String type, Destination destination, List<Section> sections) {
         if (type.equals("subtrain")) {
             Subtrain subtrain = new Subtrain();
             //using UUID5, set the namespace to UUID4 and a base
