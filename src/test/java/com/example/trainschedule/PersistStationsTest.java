@@ -33,6 +33,8 @@ public class PersistStationsTest {
     private TrackRepository trackRepository;
     @Autowired
     private StationRepository stationRepository;
+    @Autowired
+    private TrainNumberRepository trainNumberRepository;
 
     void persistHook(Object obj, String tagName){
         //Waggon
@@ -59,6 +61,10 @@ public class PersistStationsTest {
             Station station = (Station) obj;
             //persist station
             stationRepository.save(station);
+        } else if(tagName.equals("trainNumber")){
+            TrainNumber trainNumber = (TrainNumber) obj;
+            //persist trainNumber
+            trainNumberRepository.save(trainNumber);
         }
     }
 
@@ -74,7 +80,6 @@ public class PersistStationsTest {
 
     }
 
-    @Test
     void deserializeStation(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -124,20 +129,21 @@ public class PersistStationsTest {
                     String anno = element.getElementsByTagName("anno").item(0).getTextContent();
                     String time = element.getElementsByTagName("time").item(0).getTextContent();
                     String additionalText = element.getElementsByTagName("additionalText").item(0).getTextContent();
-                    List<Object> subtrains = new ArrayList<>();
-//                    this.parseTrain(element.getElementsByTagName("subtrains"),"subtrain",subtrains);
+
                     List<Object> waggons = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("waggons").item(0).getChildNodes(),"waggon",waggons);
                     List<Object> trainTypes = new ArrayList<>();
-//                    this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",traintypes);
-                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,subtrains,waggons,trainTypes);
+                    this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",trainTypes);
+                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,waggons,trainTypes);
                     objectsList.add(obj);
+                    this.persistHook(obj,"train");
 
                 }
                 else if (element.getNodeName().equals("trainNumber")) {
                     String trainNumber=element.getTextContent();
                     Object obj = this.createTrainNumber(trainNumber);
                     objectsList.add(obj);
+                    this.persistHook(obj,"trainNumber");
                 }
                 else if(element.getNodeName().equals("waggon")){
                     //create a waggon object
@@ -250,7 +256,7 @@ public class PersistStationsTest {
     //    private List<Subtrain> subtrains;
     //    private List<Waggon> waggons;
     //    private List<TrainType> traintypes;
-    public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> subtrains, List<Object> waggons, List<Object> traintypes) {
+    public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
         Train train = new Train();
         //Cast the list of objects to a list of TrainNumbers
         List<TrainNumber> trainNumbers1 = new ArrayList<>();
@@ -261,12 +267,7 @@ public class PersistStationsTest {
         train.setAnno(anno);
         train.setTime(time);
         train.setAdditionalText(additionalText);
-        //Cast the list of objects to a list of Subtrains
-        List<Subtrain> subtrains1 = new ArrayList<>();
-        for (Object obj: subtrains) {
-            subtrains1.add((Subtrain) obj);
-        }
-        train.setSubtrains(subtrains1);
+
         //Cast the list of objects to a list of Waggons
         List<Waggon> waggons1 = new ArrayList<>();
         for (Object obj: waggons) {

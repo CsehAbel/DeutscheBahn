@@ -28,7 +28,7 @@ public class Waggon {
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
 
-        @ManyToOne(fetch = FetchType.EAGER)
+        @ManyToOne
         private Train train;
 
         private int position;

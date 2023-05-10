@@ -50,9 +50,6 @@ public class Train {
 
 
         @OneToMany(mappedBy = "train")
-        private List<Subtrain> subtrains;
-
-        @OneToMany(mappedBy = "train")
         private List<Waggon> waggons;
 
 
@@ -100,14 +97,6 @@ public class Train {
 
         public void setAdditionalText(String additionalText) {
                 this.additionalText = additionalText;
-        }
-
-        public List<Subtrain> getSubtrains() {
-                return subtrains;
-        }
-
-        public void setSubtrains(List<Subtrain> subtrains) {
-                this.subtrains = subtrains;
         }
 
         public List<Waggon> getWaggons() {

@@ -34,7 +34,6 @@ public class PersistWaggonsTest {
             Waggon waggon = (Waggon) obj;
             //persist waggon
             waggonRepository.save(waggon);
-            waggonRepository.findById(""+waggon.getId());
         }
         //Section
         else if (tagName.equals("section")) {
@@ -78,13 +77,11 @@ public class PersistWaggonsTest {
                     String anno = element.getElementsByTagName("anno").item(0).getTextContent();
                     String time = element.getElementsByTagName("time").item(0).getTextContent();
                     String additionalText = element.getElementsByTagName("additionalText").item(0).getTextContent();
-                    List<Object> subtrains = new ArrayList<>();
-//                    this.parseTrain(element.getElementsByTagName("subtrains"),"subtrain",subtrains);
                     List<Object> waggons = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("waggons").item(0).getChildNodes(),"waggon",waggons);
                     List<Object> trainTypes = new ArrayList<>();
 //                    this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",traintypes);
-                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,subtrains,waggons,trainTypes);
+                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,waggons,trainTypes);
                     objectsList.add(obj);
 
                 }
@@ -164,7 +161,7 @@ public class PersistWaggonsTest {
     //    private List<Subtrain> subtrains;
     //    private List<Waggon> waggons;
     //    private List<TrainType> traintypes;
-    public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> subtrains, List<Object> waggons, List<Object> traintypes) {
+    public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
         Train train = new Train();
         //Cast the list of objects to a list of TrainNumbers
         List<TrainNumber> trainNumbers1 = new ArrayList<>();
@@ -175,12 +172,6 @@ public class PersistWaggonsTest {
         train.setAnno(anno);
         train.setTime(time);
         train.setAdditionalText(additionalText);
-        //Cast the list of objects to a list of Subtrains
-        List<Subtrain> subtrains1 = new ArrayList<>();
-        for (Object obj: subtrains) {
-            subtrains1.add((Subtrain) obj);
-        }
-        train.setSubtrains(subtrains1);
         //Cast the list of objects to a list of Waggons
         List<Waggon> waggons1 = new ArrayList<>();
         for (Object obj: waggons) {

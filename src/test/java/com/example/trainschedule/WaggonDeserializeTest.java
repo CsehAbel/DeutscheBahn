@@ -2,7 +2,6 @@ package com.example.trainschedule;
 
 import com.example.trainschedule.models.Destination;
 import com.example.trainschedule.models.Section;
-import com.example.trainschedule.models.Subtrain;
 import com.example.trainschedule.models.Waggon;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
