@@ -7,27 +7,28 @@ package com.example.trainschedule.models;
 //<identifier>D</identifier>
 //</sections>
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import lombok.Data;
 
-@XmlType( name = "section")
+import java.util.List;
+
+@Entity
+@Data
 public class Section {
 
-        private String uuid;
-
+        @Id
         private String identifier;
+
+        @ManyToMany(mappedBy = "sections")
+        private List<Waggon> waggons;
 
         public Section() {
         }
         public Section(String identifier) {
             this.identifier = identifier;
-        }
-
-        public String getUuid() {
-            return uuid;
-        }
-
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
         }
 
         public String getIdentifier() {

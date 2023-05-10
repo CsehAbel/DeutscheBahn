@@ -1,7 +1,10 @@
 package com.example.trainschedule;
 
 import com.example.trainschedule.models.*;
+import com.example.trainschedule.repository.SectionRepository;
+import com.example.trainschedule.repository.WaggonRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +22,28 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
-public class TrainDeserializeTest {
+public class PersistWaggonsTest {
+
+    @Autowired
+    private WaggonRepository waggonRepository;
+    @Autowired
+    private SectionRepository sectionRepository;
+
+    void persistHook(Object obj, String tagName){
+        //Waggon
+        if (tagName.equals("waggon")) {
+            Waggon waggon = (Waggon) obj;
+            //persist waggon
+            waggonRepository.save(waggon);
+            waggonRepository.findById(""+waggon.getId());
+        }
+        //Section
+        else if (tagName.equals("section")) {
+            Section section = (Section) obj;
+            //persist section
+            sectionRepository.save(section);
+        }
+    }
 
     @Test
     void deserializeTrain() throws ParserConfigurationException, IOException, SAXException {
@@ -85,11 +109,13 @@ public class TrainDeserializeTest {
                     Integer length=Integer.parseInt(element.getElementsByTagName("length").item(0).getTextContent());
                     Object obj=this.createWaggon(position,isWaggon,sections,number,type,symbols,differentDestination,length);
                     objectsList.add(obj);
+                    this.persistHook(obj,"waggon");
                 }
                 else if(element.getNodeName().equals("identifier")){
                     String identifier=element.getTextContent();
                     Object obj=this.createSection(identifier);
                     objectsList.add(obj);
+                    this.persistHook(obj,"section");
                 }
 
 
@@ -171,5 +197,6 @@ public class TrainDeserializeTest {
         return train;
 
     }
+
 
 }

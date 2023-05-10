@@ -17,52 +17,30 @@ package com.example.trainschedule.models;
 //</subtrain>
 //</subtrains>
 
+import jakarta.persistence.*;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(name = "subtrain")
+@Entity
+@Data
 public class Subtrain {
 
-    @XmlElement(name = "destination")
-    private Destination destination;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    @XmlElementWrapper(name = "sections")
-    @XmlElement(name = "section")
-    private List<Section> sections;
+    @ManyToOne
+    private Train train;
 
-    private String uuid;
+
+    private String destination;
+
+    private String sections;
 
     public Subtrain() {
-    }
-
-    public Subtrain(Destination destination, List<Section> sections) {
-        this.destination = destination;
-        this.sections = sections;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Destination getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Destination destination) {
-        this.destination = destination;
-    }
-
-    public List<Section> getSections() {
-        return sections;
-    }
-
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
     }
 }

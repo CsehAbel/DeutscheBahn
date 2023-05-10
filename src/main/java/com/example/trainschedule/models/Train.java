@@ -21,99 +21,105 @@ package com.example.trainschedule.models;
 //              </train>
 //</trains>
 
+import jakarta.persistence.*;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType(name = "train")
+@Entity
+@Data
 public class Train {
 
-        private String uuid;
-        @XmlElementWrapper(name = "trainNumbers")
-        @XmlElement(name = "trainNumber")
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private int id;
+
+
+        @ManyToMany(mappedBy = "train")
         private List<TrainNumber> trainNumbers;
+
         private String anno;
         private String time;
         private String additionalText;
+
+
+        @OneToMany(mappedBy = "train")
         private List<Subtrain> subtrains;
+
+        @OneToMany(mappedBy = "train")
         private List<Waggon> waggons;
+
+
+        @ManyToMany(mappedBy = "train")
         private List<TrainType> traintypes;
 
         public Train() {
         }
 
-        public Train(List<TrainNumber> trainNumbers, String anno, String time, String additionalText, List<Subtrain> subtrains, List<Waggon> waggons, List<TrainType> traintypes) {
-            this.trainNumbers = trainNumbers;
-            this.anno = anno;
-            this.time = time;
-            this.additionalText = additionalText;
-            this.subtrains = subtrains;
-            this.waggons = waggons;
-            this.traintypes = traintypes;
+        public int getId() {
+                return id;
         }
 
-        public String getUuid() {
-            return uuid;
-        }
-
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
+        public void setId(int id) {
+                this.id = id;
         }
 
         public List<TrainNumber> getTrainNumbers() {
-            return trainNumbers;
+                return trainNumbers;
         }
 
         public void setTrainNumbers(List<TrainNumber> trainNumbers) {
-            this.trainNumbers = trainNumbers;
+                this.trainNumbers = trainNumbers;
         }
 
         public String getAnno() {
-            return anno;
+                return anno;
         }
 
         public void setAnno(String anno) {
-            this.anno = anno;
+                this.anno = anno;
         }
 
         public String getTime() {
-            return time;
+                return time;
         }
 
         public void setTime(String time) {
-            this.time = time;
+                this.time = time;
         }
 
         public String getAdditionalText() {
-            return additionalText;
+                return additionalText;
         }
 
         public void setAdditionalText(String additionalText) {
-            this.additionalText = additionalText;
+                this.additionalText = additionalText;
         }
 
         public List<Subtrain> getSubtrains() {
-            return subtrains;
+                return subtrains;
         }
 
         public void setSubtrains(List<Subtrain> subtrains) {
-            this.subtrains = subtrains;
+                this.subtrains = subtrains;
         }
 
         public List<Waggon> getWaggons() {
-            return waggons;
+                return waggons;
         }
 
         public void setWaggons(List<Waggon> waggons) {
-            this.waggons = waggons;
+                this.waggons = waggons;
         }
 
         public List<TrainType> getTraintypes() {
-            return traintypes;
+                return traintypes;
         }
 
         public void setTraintypes(List<TrainType> traintypes) {
-            this.traintypes = traintypes;
+                this.traintypes = traintypes;
         }
 }

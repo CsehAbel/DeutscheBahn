@@ -4,7 +4,6 @@ import com.example.trainschedule.models.Destination;
 import com.example.trainschedule.models.Section;
 import com.example.trainschedule.models.Subtrain;
 import com.example.trainschedule.models.Waggon;
-import com.example.trainschedule.factory.SubtrainFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -74,40 +73,6 @@ class WaggonDeserializeTest {
 
     }
 
-    @Test
-    void testSubtrainsDeserialize() throws ParserConfigurationException, IOException, SAXException {
-
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("subtrains.xml");
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(inputStream);
-
-        NodeList nodeList = document.getDocumentElement().getChildNodes();
-        List<Object> subtrains = parseSubtrains(nodeList, "subtrain");
-        assert subtrains.size()>0;
-    }
-
-    @Autowired
-    SubtrainFactory subtrainFactory;
-
-    public List<Object> parseSubtrains(NodeList nodeList, String tagName) {
-        List<Object> objects = new ArrayList<>();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if(node.getNodeType()==Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                if (element.getNodeName().equals(tagName)) {
-                    String type = element.getNodeName();
-                    Destination destination = new Destination();//this.parseDestination(element.getElementsByTagName("destination"), "destination");
-                    List<Section> sections = this.parseSections(element.getElementsByTagName("sections"), "section");
-                    Object obj = this.createSubtrain(type, destination, sections);//subtrainFactory.createSubtrain(tagName, destination, sections);
-                    objects.add(obj);
-                }
-            }
-        }
-        return objects;
-    }
 
     public Destination parseDestination(NodeList nodeList,String tagName) {
         Destination destination = null;
@@ -160,28 +125,11 @@ class WaggonDeserializeTest {
             UUID uuid = UUID.randomUUID();
 
             section.setIdentifier(identifier);
-            section.setUuid(uuid.toString());
             return section;
         } else {
             return null;
         }
     }
 
-    public Object createSubtrain(String type, Destination destination, List<Section> sections) {
-        if (type.equals("subtrain")) {
-            Subtrain subtrain = new Subtrain();
-            //using UUID5, set the namespace to UUID4 and a base
-            //UUID namespace = UUID.fromString("3da1fca1-bea1-45f0-9742-2c0cffbeabd1"); // todo generate a UUID v4.
-            String input = "input";
-            UUID uuid = UUID.randomUUID();
-
-            subtrain.setDestination(destination);
-            subtrain.setSections(sections);
-            subtrain.setUuid(uuid.toString());
-            return subtrain;
-        } else {
-            return null;
-        }
-    }
 
 }

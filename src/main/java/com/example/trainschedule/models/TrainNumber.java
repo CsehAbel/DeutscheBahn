@@ -4,12 +4,22 @@ package com.example.trainschedule.models;
 //<trainNumber>1098</trainNumber>
 //</trainNumbers>
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.persistence.*;
 
-@XmlType( name = "trainNumbers")
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
+
+@Entity
 public class TrainNumber {
 
+    @Id
     private String trainNumber;
+
+    @ManyToMany
+    @JoinTable(name = "train_trainnumber",
+            joinColumns = @jakarta.persistence.JoinColumn(name = "trainnumber_id"),
+            inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "train_id"))
+    private List<Train> train;
 
     public TrainNumber() {
     }

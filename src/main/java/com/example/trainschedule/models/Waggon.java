@@ -13,17 +13,34 @@ package com.example.trainschedule.models;
 //<length>2</length>
 //</waggon>
 
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.List;
+
 import javax.xml.bind.annotation.*;
 
-@XmlType(name = "waggon")
+@Entity
+@Data
 public class Waggon {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private int id;
+
+        @ManyToOne(fetch = FetchType.EAGER)
+        private Train train;
 
         private int position;
 
         private int isWaggon;
 
-        @XmlElementWrapper(name = "sections")
-        private java.util.List<Section> sections;
+        @ManyToMany
+        @JoinTable(name = "waggon_section",
+                joinColumns = @jakarta.persistence.JoinColumn(name = "waggon_id"),
+                inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "section_id"))
+        private List<Section> sections;
+
         private String number;
         private String type;
         private String symbols;
@@ -44,71 +61,83 @@ public class Waggon {
             this.length = length;
         }
 
-        public int getPosition() {
-            return position;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public void setPosition(int position) {
-            this.position = position;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public int getIsWaggon() {
-            return isWaggon;
-        }
+    public Train getTrain() {
+        return train;
+    }
 
+    public void setTrain(Train train) {
+        this.train = train;
+    }
 
-        public void setIsWaggon(int isWaggon) {
-            this.isWaggon = isWaggon;
-        }
+    public int getPosition() {
+        return position;
+    }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
-        public java.util.List<Section> getSections() {
-            return sections;
-        }
+    public int getIsWaggon() {
+        return isWaggon;
+    }
 
+    public void setIsWaggon(int isWaggon) {
+        this.isWaggon = isWaggon;
+    }
 
-        public void setSections(java.util.List<Section> sections) {
-            this.sections = sections;
-        }
+    public List<Section> getSections() {
+        return sections;
+    }
 
-        public String getNumber() {
-            return number;
-        }
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
 
-        public void setNumber(String number) {
-            this.number = number;
-        }
+    public String getNumber() {
+        return number;
+    }
 
-        public String getType() {
-            return type;
-        }
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-        public void setType(String type) {
-            this.type = type;
-        }
+    public String getType() {
+        return type;
+    }
 
-        public String getSymbols() {
-            return symbols;
-        }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        public void setSymbols(String symbols) {
-            this.symbols = symbols;
-        }
+    public String getSymbols() {
+        return symbols;
+    }
 
-        public String getDifferentDestination() {
-            return differentDestination;
-        }
+    public void setSymbols(String symbols) {
+        this.symbols = symbols;
+    }
 
-        public void setDifferentDestination(String differentDestination) {
-            this.differentDestination = differentDestination;
-        }
+    public String getDifferentDestination() {
+        return differentDestination;
+    }
 
-        public int getLength() {
-            return length;
-        }
+    public void setDifferentDestination(String differentDestination) {
+        this.differentDestination = differentDestination;
+    }
 
-        public void setLength(int length) {
-            this.length = length;
-        }
+    public int getLength() {
+        return length;
+    }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
 }

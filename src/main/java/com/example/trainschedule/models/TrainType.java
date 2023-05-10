@@ -4,25 +4,24 @@ package com.example.trainschedule.models;
 //                            <traintype>IC</traintype>
 //                        </traintypes>
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import lombok.Data;
 
-@XmlType( name = "traintypes")
+import java.util.List;
+
+@Entity
+@Data
 public class TrainType {
 
+    @Id
     private String trainType;
+
+    @ManyToMany
+    private List<Train> train;
 
     public TrainType() {
     }
 
-    public TrainType(String trainType) {
-        this.trainType = trainType;
-    }
-
-    public String getTrainType() {
-        return trainType;
-    }
-
-    public void setTrainType(String trainType) {
-        this.trainType = trainType;
-    }
 }

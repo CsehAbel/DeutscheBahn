@@ -9,12 +9,18 @@ package com.example.trainschedule.models;
  //							</destination>
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType( name = "destination")
+@Entity
+@Data
 public class Destination {
 
+    @Id
     private String uuid;
 
     @XmlElement(name = "destinationName")
