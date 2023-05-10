@@ -5,35 +5,49 @@ package com.example.trainschedule.models;
 //		<to>2016-12-10</to>
 //</validity>
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.persistence.*;
 
-@XmlType( name = "validity")
+import javax.xml.bind.annotation.XmlType;
+import java.util.Objects;
+
+@Embeddable
 public class Validity {
 
-        private String from;
-        private String to;
+    private String from;
+    private String to;
 
-        public Validity() {
-        }
+    public Validity() {
+    }
 
-        public Validity(String from, String to) {
-            this.from = from;
-            this.to = to;
-        }
-
-        public String getFrom() {
+    public Validity(String from, String to) {
+        this.from = from;
+        this.to = to;
+    }
+    public String getFrom() {
             return from;
-        }
+    }
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-        public void setFrom(String from) {
-            this.from = from;
-        }
+    public String getTo() {
+        return to;
+    }
 
-        public String getTo() {
-            return to;
-        }
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-        public void setTo(String to) {
-            this.to = to;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Validity validity = (Validity) o;
+        return Objects.equals(from, validity.from) && Objects.equals(to, validity.to);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to);
+    }
 }

@@ -11,18 +11,26 @@ package com.example.trainschedule.models;
 //		</track>
 //</tracks>
 
+import jakarta.persistence.*;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType( name = "track")
+@Entity
 public class Track {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private int id;
 
         private String name;
         private int number;
+        @ManyToOne
+        private Station station;
 
-        @XmlElementWrapper(name = "trains")
+        @OneToMany(mappedBy = "track")
         private List<Train> trains;
 
         public Track() {

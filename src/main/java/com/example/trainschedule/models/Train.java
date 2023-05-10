@@ -37,6 +37,9 @@ public class Train {
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
 
+        @ManyToOne
+        private Track track;
+
 
         @ManyToMany(mappedBy = "train")
         private List<TrainNumber> trainNumbers;

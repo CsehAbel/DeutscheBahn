@@ -11,19 +11,27 @@ package com.example.trainschedule.models;
 //<tracks>...</tracks>
 //</station>
 
+import jakarta.persistence.*;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "station")
+@Entity
 public class Station {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String shortcode;
     private String name;
+
+    @Embedded
     private Validity validity;
 
-    @XmlElementWrapper(name = "tracks")
+    @OneToMany(mappedBy = "station")
     private List<Track> tracks;
 
     public Station() {
