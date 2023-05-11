@@ -10,6 +10,6 @@ import java.util.List;
 @Component
 public interface TrainNumberRepository extends CrudRepository<TrainNumber, String> {
         //findByTrainNumber
-        TrainNumber findByTrainNumber(String trainNumber);
+        //TrainNumber findByTrainNumber(String trainNumber);
 
 }

@@ -12,7 +12,7 @@ public interface TrackRepository extends CrudRepository<Track, String> {
 
     //@Query("SELECT t FROM Track t WHERE t.station.shortcode = :station")
     //List<Track> findByStation(String station);
-    List<Track> findByStation(Station station);
+    //List<Track> findByStation(Station station);
 
 
 

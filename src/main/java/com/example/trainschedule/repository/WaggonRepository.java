@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface WaggonRepository extends CrudRepository<Waggon, String> {
 
-    Waggon findByTrainAndNumber(Train train, String number);
+    //Waggon findByTrainAndNumber(Train train, String number);
 }

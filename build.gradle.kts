@@ -25,7 +25,8 @@ dependencies {
     //uuid-create
     // https://mvnrepository.com/artifact/com.github.f4b6a3/uuid-creator
     // Postgres
-    runtimeOnly("org.postgresql:postgresql")
+    //runtimeOnly("org.postgresql:postgresql")
+    implementation("org.postgresql:postgresql")
 
 
 

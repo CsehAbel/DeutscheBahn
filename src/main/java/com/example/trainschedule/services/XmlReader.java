@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class XmlReader {
     //load a file from resources folder and unmarshal it to an object
 
-    @PostConstruct
     public void init() throws IOException, ParserConfigurationException, SAXException {
         this.readXmls();
     }

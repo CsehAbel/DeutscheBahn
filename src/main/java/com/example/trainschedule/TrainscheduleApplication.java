@@ -2,6 +2,7 @@ package com.example.trainschedule;
 
 import com.example.trainschedule.models.*;
 import com.example.trainschedule.repository.*;
+import com.example.trainschedule.services.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +18,8 @@ import java.util.List;
 public class TrainscheduleApplication {
 
 
-    @Autowired
-    StationRepository stationRepository;
+//    @Autowired
+//    StationRepository stationRepository;
     @Autowired
     SectionRepository sectionRepository;
     @Autowired
@@ -29,6 +30,10 @@ public class TrainscheduleApplication {
     TrackRepository trackRepository;
     @Autowired
     WaggonRepository waggonRepository;
+
+    //inject the service
+    @Autowired
+    private XmlReader xmlReader;
 
 
     public static void main(String[] args) {
@@ -42,18 +47,19 @@ public class TrainscheduleApplication {
 
     @GetMapping("/station/{shortcode}/train/{trainNumber}/waggon/{waggonNumber}")
         public List<Section> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("waggonNumber") String waggonNumber) {
-            Station station = stationRepository.findByShortcode(shortcode);
-            List<Track> tracks = trackRepository.findByStation(station);
-            TrainNumber trainNumberObject = trainNumberRepository.findByTrainNumber(trainNumber);
-            Train train=null;
-            for (Track track : tracks) {
-                Train trainSearched = trainRepository.findByTrainNumberAndTrack(trainNumberObject, track);
-                if (trainSearched != null) {
-                    train = trainSearched;
-                }
-            }
-            Waggon waggon = waggonRepository.findByTrainAndNumber(train, waggonNumber);
-            return sectionRepository.findByWaggon(waggon);
+//            Station station = stationRepository.findByShortcode(shortcode);
+//            List<Track> tracks = trackRepository.findByStation(station);
+//            TrainNumber trainNumberObject = trainNumberRepository.findByTrainNumber(trainNumber);
+//            Train train=null;
+//            for (Track track : tracks) {
+//                Train trainSearched = trainRepository.findByTrainNumberAndTrack(trainNumberObject, track);
+//                if (trainSearched != null) {
+//                    train = trainSearched;
+//                }
+//            }
+//            Waggon waggon = waggonRepository.findByTrainAndNumber(train, waggonNumber);
+//            return sectionRepository.findByWaggon(waggon);
+            return null;
     }
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TrainRepository extends CrudRepository<Train, String> {
+public interface TrainRepository extends CrudRepository<Train, Integer> {
 
-    Train findByTrainNumberAndTrack(TrainNumber trainNumber, Track track);
+    //Train findByTrainNumberAndTrack(TrainNumber trainNumber, Track track);
 }
