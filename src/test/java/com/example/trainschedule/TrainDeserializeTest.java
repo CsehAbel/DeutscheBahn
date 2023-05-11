@@ -59,14 +59,13 @@ public class TrainDeserializeTest {
                     this.parseTrain(element.getElementsByTagName("waggons").item(0).getChildNodes(),"waggon",waggons);
                     List<Object> trainTypes = new ArrayList<>();
 //                    this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",traintypes);
-                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,waggons,trainTypes);
+                    Object obj = this.createTrain(anno,time,additionalText,waggons,trainTypes);
                     objectsList.add(obj);
 
                 }
                 else if (element.getNodeName().equals("trainNumber")) {
                     String trainNumber=element.getTextContent();
-                    Object obj = this.createTrainNumber(trainNumber);
-                    objectsList.add(obj);
+                    objectsList.add(trainNumber);
                 }
                 else if(element.getNodeName().equals("waggon")){
                     //create a waggon object
@@ -120,13 +119,7 @@ public class TrainDeserializeTest {
 
     }
 
-    //    class TrainNumber {
-//        private String trainNumber;
-    public TrainNumber createTrainNumber(String trainNumber){
-        TrainNumber aTrainNumber=new TrainNumber();
-        aTrainNumber.setTrainNumber(trainNumber);
-        return aTrainNumber;
-    }
+
 
     //class Train{
     //    private String uuid;
@@ -137,14 +130,8 @@ public class TrainDeserializeTest {
     //    private List<Subtrain> subtrains;
     //    private List<Waggon> waggons;
     //    private List<TrainType> traintypes;
-    public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
+    public Train createTrain(String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
         Train train = new Train();
-        //Cast the list of objects to a list of TrainNumbers
-        List<TrainNumber> trainNumbers1 = new ArrayList<>();
-        for (Object obj: trainNumbers) {
-            trainNumbers1.add((TrainNumber) obj);
-        }
-        train.setTrainNumbers(trainNumbers1);
         train.setAnno(anno);
         train.setTime(time);
         train.setAdditionalText(additionalText);

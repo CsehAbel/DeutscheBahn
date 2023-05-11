@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface SectionRepository extends CrudRepository<Section, String> {
+public interface SectionRepository extends CrudRepository<Section, Integer> {
 
 
     @Query("SELECT s FROM Section s WHERE s.waggon.id = :waggon")

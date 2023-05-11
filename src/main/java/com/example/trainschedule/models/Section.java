@@ -17,6 +17,7 @@ import java.util.List;
 public class Section {
 
         @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
 
         private String identifier;

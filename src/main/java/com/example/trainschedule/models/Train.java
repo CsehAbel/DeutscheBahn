@@ -45,10 +45,6 @@ public class Train {
         private Track track;
 
 
-        @OneToMany(mappedBy = "train")
-        @Cascade(CascadeType.ALL)
-        private List<TrainNumber> trainNumbers;
-
         private String anno;
         private String time;
         private String additionalText;
@@ -58,6 +54,9 @@ public class Train {
         @Fetch(FetchMode.SUBSELECT)
         @Cascade(CascadeType.ALL)
         private List<Waggon> waggons;
+
+        @ElementCollection
+        private List<String> trainNumber;
 
 
         @OneToMany(mappedBy = "train")
@@ -75,13 +74,7 @@ public class Train {
                 this.id = id;
         }
 
-        public List<TrainNumber> getTrainNumbers() {
-                return trainNumbers;
-        }
 
-        public void setTrainNumbers(List<TrainNumber> trainNumbers) {
-                this.trainNumbers = trainNumbers;
-        }
 
         public String getAnno() {
                 return anno;
@@ -129,5 +122,13 @@ public class Train {
 
         public void setTrack(Track track) {
                 this.track = track;
+        }
+
+        public List<String> getTrainNumber() {
+                return trainNumber;
+        }
+
+        public void setTrainNumber(List<String> trainNumber) {
+                this.trainNumber = trainNumber;
         }
 }

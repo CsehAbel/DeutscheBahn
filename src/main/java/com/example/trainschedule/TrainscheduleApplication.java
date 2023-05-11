@@ -24,8 +24,6 @@ public class TrainscheduleApplication {
     @Autowired
     SectionRepository sectionRepository;
     @Autowired
-    TrainNumberRepository trainNumberRepository;
-    @Autowired
     TrainRepository trainRepository;
     @Autowired
     TrackRepository trackRepository;
@@ -49,12 +47,18 @@ public class TrainscheduleApplication {
         public List<Section> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("position") String position) {
             Station station = stationRepository.findByShortcode(shortcode);
             List<Track> tracks = trackRepository.findByStation(station);
-            TrainNumber trainNumberObject = trainNumberRepository.findByTrainNumber(trainNumber);
             Train train=null;
             for (Track track : tracks) {
-                Train trainSearched = trainRepository.findByTrainNumberAndTrack(trainNumberObject, track);
-                if (trainSearched != null) {
-                    train = trainSearched;
+                List<Train> trains = trainRepository.findByTrack(track);
+                //iterate through trains
+                "".isEmpty();
+                while (trains.iterator().hasNext()) {
+                    Train t = trains.iterator().next();
+                    // if train.getTrainNumber():List<String> includes trainNumber
+                    if(t.getTrainNumber().contains(trainNumber)){
+                        train=t;
+                        break;
+                    }
                 }
             }
             Waggon waggon = waggonRepository.findByTrainAndNumber(train, position);

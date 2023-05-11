@@ -34,8 +34,6 @@ public class PersistStationsTest {
     private TrackRepository trackRepository;
     @Autowired
     private StationRepository stationRepository;
-    @Autowired
-    private TrainNumberRepository trainNumberRepository;
 
     void persistHook(Object obj, String tagName){
         //Waggon
@@ -62,10 +60,6 @@ public class PersistStationsTest {
             Station station = (Station) obj;
             //persist station
             stationRepository.save(station);
-        } else if(tagName.equals("trainNumber")){
-            TrainNumber trainNumber = (TrainNumber) obj;
-            //persist trainNumber
-            trainNumberRepository.save(trainNumber);
         }
     }
 
@@ -142,9 +136,7 @@ public class PersistStationsTest {
                 }
                 else if (element.getNodeName().equals("trainNumber")) {
                     String trainNumber=element.getTextContent();
-                    Object obj = this.createTrainNumber(trainNumber);
-                    objectsList.add(obj);
-                    this.persistHook(obj,"trainNumber");
+                    objectsList.add(trainNumber);
                 }
                 else if(element.getNodeName().equals("waggon")){
                     //create a waggon object
@@ -240,13 +232,7 @@ public class PersistStationsTest {
 
     }
 
-    //    class TrainNumber {
-//        private String trainNumber;
-    public TrainNumber createTrainNumber(String trainNumber){
-        TrainNumber aTrainNumber=new TrainNumber();
-        aTrainNumber.setTrainNumber(trainNumber);
-        return aTrainNumber;
-    }
+
 
     //class Train{
     //    private String uuid;
@@ -259,12 +245,8 @@ public class PersistStationsTest {
     //    private List<TrainType> traintypes;
     public Train createTrain(List<Object> trainNumbers, String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
         Train train = new Train();
-        //Cast the list of objects to a list of TrainNumbers
-        List<TrainNumber> trainNumbers1 = new ArrayList<>();
-        for (Object obj: trainNumbers) {
-            trainNumbers1.add((TrainNumber) obj);
-        }
-        train.setTrainNumbers(trainNumbers1);
+
+
         train.setAnno(anno);
         train.setTime(time);
         train.setAdditionalText(additionalText);
