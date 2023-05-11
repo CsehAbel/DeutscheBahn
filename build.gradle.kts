@@ -21,11 +21,11 @@ dependencies {
     implementation("com.github.f4b6a3:uuid-creator:5.3.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.projectlombok:lombok:1.18.26")
+    implementation("org.postgresql:postgresql:42.5.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     //uuid-create
     // https://mvnrepository.com/artifact/com.github.f4b6a3/uuid-creator
     // Postgres
-    runtimeOnly("org.postgresql:postgresql")
 
 
 

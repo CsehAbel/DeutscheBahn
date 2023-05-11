@@ -49,35 +49,69 @@ public class XmlReader {
     @Autowired
     private TrainNumberRepository trainNumberRepository;
 
-    void persistHook(Object obj, String tagName){
-        //Waggon
-        if (tagName.equals("waggon")) {
-            Waggon waggon = (Waggon) obj;
-            //persist waggon
-            waggonRepository.save(waggon);
-            waggonRepository.findById(""+waggon.getId());
+    void persistHook(Object obj, String tagName, Object oneToMany){
+        //check if obj is a List of objects or a single object
+        //if it is a list, call persistCollection(obj, tagName,oneToMany)
+        if(obj instanceof List){
+            List<Object> list = (List<Object>) obj;
+            persistCollection(list, tagName, oneToMany);
         }
-        //Section
-        else if (tagName.equals("section")) {
-            Section section = (Section) obj;
-            //persist section
-            sectionRepository.save(section);
-        } else if(tagName.equals("train")){
-            Train train = (Train) obj;
-            //persist train
-            trainRepository.save(train);
-        } else if(tagName.equals("track")){
-            Track track = (Track) obj;
-            //persist track
-            trackRepository.save(track);
-        } else if(tagName.equals("station")){
+//        //Waggon
+//        if (tagName.equals("waggon")) {
+//            Waggon waggon = (Waggon) obj;
+//            //persist waggon
+//            waggonRepository.save(waggon);
+//        }
+//        //Section
+//        else if (tagName.equals("section")) {
+//            Section section = (Section) obj;
+//            //persist section
+//            sectionRepository.save(section);
+//        } else if(tagName.equals("train")){
+//            Train train = (Train) obj;
+//            //persist train
+//            trainRepository.save(train);
+//        } else if(tagName.equals("track")){
+//            Track track = (Track) obj;
+//            //persist track
+//            trackRepository.save(track);
+//        } else
+        if(tagName.equals("station")){
             Station station = (Station) obj;
             //persist station
             stationRepository.save(station);
-        } else if(tagName.equals("trainNumber")){
-            TrainNumber trainNumber = (TrainNumber) obj;
-            //persist trainNumber
-            trainNumberRepository.save(trainNumber);
+        }
+//        else if(tagName.equals("trainNumber")){
+//            TrainNumber trainNumber = (TrainNumber) obj;
+//            //persist trainNumber
+//            trainNumberRepository.save(trainNumber);
+//        }
+    }
+
+    private void persistCollection(List<Object> list, String tagName, Object oneToMany) {
+        //iterate through the list
+        for (Object obj : list) {
+            if(tagName.equals("trainNumbers")){
+                TrainNumber trainNumber = (TrainNumber) obj;
+                trainNumber.setTrain((Train) oneToMany);
+
+            } else if(tagName.equals("waggons")){
+                Waggon waggon = (Waggon) obj;
+                waggon.setTrain((Train) oneToMany);
+                //persist the Train later
+            } else if(tagName.equals("sections")){
+                Section section = (Section) obj;
+                section.setWaggon((Waggon) oneToMany);
+                //persist the Train later
+            } else if(tagName.equals("tracks")){
+                Track track = (Track) obj;
+                track.setStation((Station) oneToMany);
+                //persist the Station later
+            } else if(tagName.equals("trains")){
+                Train train = (Train) obj;
+                train.setTrack ((Track) oneToMany);
+            }
+
         }
     }
 
@@ -124,7 +158,8 @@ public class XmlReader {
                     this.parseTrain(element.getElementsByTagName("tracks").item(0).getChildNodes(),"track",tracks);
                     Object obj=this.createStation(shortcode,name,validity,tracks);
                     objectsList.add(obj);
-                    this.persistHook(obj,"station");
+                    this.persistHook(tracks,"tracks",obj);
+                    this.persistHook(obj,"station",null);
                 }
                 else if(element.getNodeName().equals("track")){
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
@@ -133,12 +168,13 @@ public class XmlReader {
                     this.parseTrain(element.getElementsByTagName("trains").item(0).getChildNodes(),"train",trains);
                     Object obj=this.createTrack(name,number,trains);
                     objectsList.add(obj);
-                    this.persistHook(obj,"track");
+                    this.persistHook(trains,"trains",obj);
                 }
                 else if (element.getNodeName().equals("train")) {
                     //create a train object
                     List<Object> trainNumbers = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("trainNumbers").item(0).getChildNodes(),"trainNumber",trainNumbers);
+
                     String anno = element.getElementsByTagName("anno").item(0).getTextContent();
                     String time = element.getElementsByTagName("time").item(0).getTextContent();
                     String additionalText = element.getElementsByTagName("additionalText").item(0).getTextContent();
@@ -149,14 +185,13 @@ public class XmlReader {
                     this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",trainTypes);
                     Object obj = this.createTrain(trainNumbers,anno,time,additionalText,waggons,trainTypes);
                     objectsList.add(obj);
-                    this.persistHook(obj,"train");
-
+                    this.persistHook(trainNumbers,"trainNumbers",obj);
+                    this.persistHook(waggons,"waggons",obj);
                 }
                 else if (element.getNodeName().equals("trainNumber")) {
                     String trainNumber=element.getTextContent();
                     Object obj = this.createTrainNumber(trainNumber);
                     objectsList.add(obj);
-                    this.persistHook(obj,"trainNumber");
                 }
                 else if(element.getNodeName().equals("waggon")){
                     //create a waggon object
@@ -173,13 +208,12 @@ public class XmlReader {
                     Integer length=Integer.parseInt(element.getElementsByTagName("length").item(0).getTextContent());
                     Object obj=this.createWaggon(position,isWaggon,sections,number,type,symbols,differentDestination,length);
                     objectsList.add(obj);
-                    this.persistHook(obj,"waggon");
+                    this.persistHook(sections, "sections", obj);
                 }
                 else if(element.getNodeName().equals("identifier")){
                     String identifier=element.getTextContent();
                     Object obj=this.createSection(identifier);
                     objectsList.add(obj);
-                    this.persistHook(obj,"section");
                 }
 
 
@@ -255,9 +289,9 @@ public class XmlReader {
     //    class TrainNumber {
 //        private String trainNumber;
     public TrainNumber createTrainNumber(String trainNumber){
-        TrainNumber aTrainNumber=new TrainNumber();
-        aTrainNumber.setTrainNumber(trainNumber);
-        return aTrainNumber;
+        TrainNumber trainNumber1 = new TrainNumber();
+        trainNumber1.setTrainNumber(trainNumber);
+        return trainNumber1;
     }
 
     //class Train{

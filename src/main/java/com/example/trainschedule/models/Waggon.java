@@ -37,10 +37,7 @@ public class Waggon {
 
         private int isWaggon;
 
-        @ManyToMany
-        @JoinTable(name = "waggon_section",
-                joinColumns = @jakarta.persistence.JoinColumn(name = "waggon_id"),
-                inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "section_id"))
+        @OneToMany(mappedBy = "waggon")
         @Fetch(FetchMode.SUBSELECT)
         private List<Section> sections;
 

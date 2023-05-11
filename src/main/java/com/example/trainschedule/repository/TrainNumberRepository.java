@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public interface TrainNumberRepository extends CrudRepository<TrainNumber, String> {
+public interface TrainNumberRepository extends CrudRepository<TrainNumber, Integer> {
         //findByTrainNumber
         TrainNumber findByTrainNumber(String trainNumber);
 

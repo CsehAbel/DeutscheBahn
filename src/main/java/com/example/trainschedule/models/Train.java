@@ -23,6 +23,8 @@ package com.example.trainschedule.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -43,7 +45,8 @@ public class Train {
         private Track track;
 
 
-        @ManyToMany(mappedBy = "train")
+        @OneToMany(mappedBy = "train")
+        @Cascade(CascadeType.ALL)
         private List<TrainNumber> trainNumbers;
 
         private String anno;
@@ -53,10 +56,12 @@ public class Train {
 
         @OneToMany(mappedBy = "train")
         @Fetch(FetchMode.SUBSELECT)
+        @Cascade(CascadeType.ALL)
         private List<Waggon> waggons;
 
 
-        @ManyToMany(mappedBy = "train")
+        @OneToMany(mappedBy = "train")
+        @Cascade(CascadeType.ALL)
         private List<TrainType> traintypes;
 
         public Train() {
@@ -116,5 +121,13 @@ public class Train {
 
         public void setTraintypes(List<TrainType> traintypes) {
                 this.traintypes = traintypes;
+        }
+
+        public Track getTrack() {
+                return track;
+        }
+
+        public void setTrack(Track track) {
+                this.track = track;
         }
 }

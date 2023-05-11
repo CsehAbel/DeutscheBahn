@@ -7,6 +7,7 @@ package com.example.trainschedule.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.util.List;
@@ -18,10 +19,26 @@ public class TrainType {
     @Id
     private String trainType;
 
-    @ManyToMany
-    private List<Train> train;
+    @ManyToOne
+    private Train train;
 
     public TrainType() {
+    }
+
+    public TrainType(String trainType) {
+        this.trainType = trainType;
+    }
+
+    public String getTrainType() {
+        return trainType;
+    }
+
+    public void setTrainType(String trainType) {
+        this.trainType = trainType;
+    }
+
+    public Train getTrain() {
+        return train;
     }
 
 }

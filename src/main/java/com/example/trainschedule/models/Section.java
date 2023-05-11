@@ -7,10 +7,7 @@ package com.example.trainschedule.models;
 //<identifier>D</identifier>
 //</sections>
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -20,10 +17,12 @@ import java.util.List;
 public class Section {
 
         @Id
+        private int id;
+
         private String identifier;
 
-        @ManyToMany(mappedBy = "sections")
-        private List<Waggon> waggons;
+        @ManyToOne
+        private Waggon waggon;
 
         public Section() {
         }
@@ -37,5 +36,13 @@ public class Section {
 
         public void setIdentifier(String identifier) {
             this.identifier = identifier;
+        }
+
+        public Waggon getWaggon() {
+            return waggon;
+        }
+
+        public void setWaggon(Waggon waggon) {
+            this.waggon = waggon;
         }
 }

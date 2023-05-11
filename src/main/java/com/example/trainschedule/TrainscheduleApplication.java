@@ -2,6 +2,7 @@ package com.example.trainschedule;
 
 import com.example.trainschedule.models.*;
 import com.example.trainschedule.repository.*;
+import com.example.trainschedule.services.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -30,6 +32,9 @@ public class TrainscheduleApplication {
     @Autowired
     WaggonRepository waggonRepository;
 
+    @Autowired
+    public XmlReader xmlReader;
+
 
     public static void main(String[] args) {
         SpringApplication.run(TrainscheduleApplication.class, args);
@@ -40,8 +45,8 @@ public class TrainscheduleApplication {
         return String.format("Hello %s!", name);
     }
 
-    @GetMapping("/station/{shortcode}/train/{trainNumber}/waggon/{waggonNumber}")
-        public List<Section> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("waggonNumber") String waggonNumber) {
+    @GetMapping("/station/{shortcode}/train/{trainNumber}/waggon/{position}")
+        public List<Section> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("position") String position) {
             Station station = stationRepository.findByShortcode(shortcode);
             List<Track> tracks = trackRepository.findByStation(station);
             TrainNumber trainNumberObject = trainNumberRepository.findByTrainNumber(trainNumber);
@@ -52,8 +57,8 @@ public class TrainscheduleApplication {
                     train = trainSearched;
                 }
             }
-            Waggon waggon = waggonRepository.findByTrainAndNumber(train, waggonNumber);
-            return sectionRepository.findByWaggon(waggon);
+            Waggon waggon = waggonRepository.findByTrainAndNumber(train, position);
+            return sectionRepository.findSectionsByWaggon(waggon.getId());
     }
 
 }
