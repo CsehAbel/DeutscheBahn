@@ -18,61 +18,60 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@Entity
 public class Station {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    private String shortcode;
-    private String name;
-
-    @Embedded
-    private Validity validity;
-
-    @OneToMany(mappedBy = "station")
-    private List<Track> tracks;
-
-    public Station() {
-    }
-
-    public Station(String shortcode, String name, Validity validity, List<Track> tracks) {
-        this.shortcode = shortcode;
-        this.name = name;
-        this.validity = validity;
-        this.tracks = tracks;
-    }
-
-    public String getShortcode() {
-        return shortcode;
-    }
-
-    public void setShortcode(String shortcode) {
-        this.shortcode = shortcode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Validity getValidity() {
-        return validity;
-    }
-
-    public void setValidity(Validity validity) {
-        this.validity = validity;
-    }
-
-    public List<Track> getTracks() {
-        return tracks;
-    }
-
-    public void setTracks(List<Track> tracks) {
-        this.tracks = tracks;
-    }
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private int id;
+//
+//    private String shortcode;
+//    private String name;
+//
+//    @Embedded
+//    private Validity validity;
+//
+//    @OneToMany(mappedBy = "station")
+//    private List<Track> tracks;
+//
+//    public Station() {
+//    }
+//
+//    public Station(String shortcode, String name, Validity validity, List<Track> tracks) {
+//        this.shortcode = shortcode;
+//        this.name = name;
+//        this.validity = validity;
+//        this.tracks = tracks;
+//    }
+//
+//    public String getShortcode() {
+//        return shortcode;
+//    }
+//
+//    public void setShortcode(String shortcode) {
+//        this.shortcode = shortcode;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public Validity getValidity() {
+//        return validity;
+//    }
+//
+//    public void setValidity(Validity validity) {
+//        this.validity = validity;
+//    }
+//
+//    public List<Track> getTracks() {
+//        return tracks;
+//    }
+//
+//    public void setTracks(List<Track> tracks) {
+//        this.tracks = tracks;
+//    }
 }

@@ -27,8 +27,6 @@ public class Track {
 
         private String name;
         private int number;
-        @ManyToOne
-        private Station station;
 
         @OneToMany(mappedBy = "track")
         private List<Train> trains;

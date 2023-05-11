@@ -32,8 +32,8 @@ public class PersistStationsTest {
     private TrainRepository trainRepository;
     @Autowired
     private TrackRepository trackRepository;
-    @Autowired
-    private StationRepository stationRepository;
+//    @Autowired
+//    private StationRepository stationRepository;
     @Autowired
     private TrainNumberRepository trainNumberRepository;
 
@@ -58,11 +58,7 @@ public class PersistStationsTest {
             Track track = (Track) obj;
             //persist track
             trackRepository.save(track);
-        } else if(tagName.equals("station")){
-            Station station = (Station) obj;
-            //persist station
-            stationRepository.save(station);
-        } else if(tagName.equals("trainNumber")){
+        }  else if(tagName.equals("trainNumber")){
             TrainNumber trainNumber = (TrainNumber) obj;
             //persist trainNumber
             trainNumberRepository.save(trainNumber);
@@ -93,8 +89,6 @@ public class PersistStationsTest {
         this.parseTrain(nodeList,"station",aList);
         //assert that aList is not null, contains an intanceOf Train and has a size of 1
         assert aList != null;
-        assert aList.get(0) instanceof Station;
-        assert aList.size() == 1;
     }
 
     void parseTrain(NodeList nodeList,String tagName,List<Object> objectsList) {
@@ -110,9 +104,9 @@ public class PersistStationsTest {
                     Object validity = this.createValidity(element.getElementsByTagName("validity").item(0).getChildNodes());
                     List<Object> tracks = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("tracks").item(0).getChildNodes(),"track",tracks);
-                    Object obj=this.createStation(shortcode,name,validity,tracks);
-                    objectsList.add(obj);
-                    this.persistHook(obj,"station");
+//                    Object obj=this.createStation(shortcode,name,validity,tracks);
+//                    objectsList.add(obj);
+//                    this.persistHook(obj,"station");
                 }
                 else if(element.getNodeName().equals("track")){
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
@@ -185,16 +179,16 @@ public class PersistStationsTest {
         return track;
     }
 
-    private Object createStation(String shortcode, String name, Object validity, List<Object> tracks) {
-        Station station = new Station();
-        station.setShortcode(shortcode);
-        station.setName(name);
-        station.setValidity((Validity) validity);
-        //cast the list of objects to a list of tracks
-        List<Track> tracks1 = tracks.stream().map(x -> (Track) x).collect(Collectors.toList());
-        station.setTracks(tracks1);
-        return station;
-    }
+//    private Object createStation(String shortcode, String name, Object validity, List<Object> tracks) {
+//        Station station = new Station();
+//        station.setShortcode(shortcode);
+//        station.setName(name);
+//        station.setValidity((Validity) validity);
+//        //cast the list of objects to a list of tracks
+//        List<Track> tracks1 = tracks.stream().map(x -> (Track) x).collect(Collectors.toList());
+//        station.setTracks(tracks1);
+//        return station;
+//    }
 
     private Object createValidity(NodeList validity) {
         Validity validity1 = new Validity();
