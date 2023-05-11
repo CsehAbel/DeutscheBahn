@@ -6,13 +6,12 @@ import com.example.trainschedule.services.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @RestController
@@ -43,26 +42,30 @@ public class TrainscheduleApplication {
         return String.format("Hello %s!", name);
     }
 
-    @GetMapping("/station/{shortcode}/train/{trainNumber}/waggon/{position}")
-        public List<Section> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("position") String position) {
+        @GetMapping("/station/{shortcode}/train/{trainNumber}/waggon/{position}")
+        @ResponseBody
+        public Map.Entry<String, String[]> getSectionsForStationTrain(@PathVariable("shortcode") String shortcode, @PathVariable("trainNumber") String trainNumber, @PathVariable("position") String position) {
             Station station = stationRepository.findByShortcode(shortcode);
             List<Track> tracks = trackRepository.findByStation(station);
-            Train train=null;
+            Train train = null;
             for (Track track : tracks) {
-                List<Train> trains = trainRepository.findByTrack(track);
-                //iterate through trains
-                "".isEmpty();
-                while (trains.iterator().hasNext()) {
-                    Train t = trains.iterator().next();
-                    // if train.getTrainNumber():List<String> includes trainNumber
-                    if(t.getTrainNumber().contains(trainNumber)){
-                        train=t;
-                        break;
-                    }
+                train = trainRepository.findByTrainNumberAndTrack(trainNumber, track.getId());
+                if (train != null) {
+                    break;
                 }
             }
-            Waggon waggon = waggonRepository.findByTrainAndNumber(train, position);
-            return sectionRepository.findSectionsByWaggon(waggon.getId());
+            Waggon waggon = waggonRepository.findByTrainAndPosition(train.getId(), position);
+            List<Section> sections = waggon.getSections();
+            //detach object references and deep copy sections to Map<String, String[]> sectionsMap {"sections": ["A", "B", "C"]}
+            Map<String,String[]> sectionsMap = new HashMap<>();
+            String[] sectionsArray = new String[sections.size()];
+            for (int i = 0; i < sections.size(); i++) {
+                sectionsArray[i] = sections.get(i).getIdentifier();
+            }
+            sectionsMap.put("sections", sectionsArray);
+            //return an entry from sectionsMap
+            Map.Entry<String, String[]> entry = sectionsMap.entrySet().iterator().next();
+            return entry;
     }
 
 }

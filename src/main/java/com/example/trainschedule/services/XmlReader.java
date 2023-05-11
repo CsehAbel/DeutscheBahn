@@ -177,9 +177,14 @@ public class XmlReader {
                     this.parseTrain(element.getElementsByTagName("waggons").item(0).getChildNodes(),"waggon",waggons);
                     List<Object> trainTypes = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("traintypes"),"traintype",trainTypes);
-                    Object obj = this.createTrain(trainNumbers,anno,time,additionalText,waggons,trainTypes);
-                    objectsList.add(obj);
-                    this.persistHook(waggons,"waggons",obj);
+
+                    if (((ArrayList) trainNumbers).size()!=0){
+                        String trainNumber = (String) trainNumbers.get(0);
+                        Object obj = this.createTrain(trainNumber,anno,time,additionalText,waggons,trainTypes);
+                        objectsList.add(obj);
+                        this.persistHook(waggons,"waggons",obj);
+                    }
+
                 }
                 else if (element.getNodeName().equals("trainNumber")) {
                     String trainNumber=element.getTextContent();
@@ -288,13 +293,10 @@ public class XmlReader {
     //    private List<Subtrain> subtrains;
     //    private List<Waggon> waggons;
     //    private List<TrainType> traintypes;
-    public Train createTrain(List<Object> trainNumber,String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
+    public Train createTrain(String trainNumber,String anno, String time, String additionalText, List<Object> waggons, List<Object> traintypes) {
         Train train = new Train();
-        //Cast the list of objects to a list of Strings for the trainNumbers
-        List<String> trainNumbers = new ArrayList<>();
-        for (Object obj: trainNumber) {
-            trainNumbers.add((String) obj);
-        }
+
+        train.setTrainNumber(trainNumber);
 
         train.setAnno(anno);
         train.setTime(time);

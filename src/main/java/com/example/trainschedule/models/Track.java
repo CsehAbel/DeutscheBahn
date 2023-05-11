@@ -80,4 +80,12 @@ public class Track {
             this.station = station;
         }
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
 }

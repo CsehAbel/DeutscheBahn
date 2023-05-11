@@ -15,6 +15,8 @@ package com.example.trainschedule.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -39,6 +41,7 @@ public class Waggon {
 
         @OneToMany(mappedBy = "waggon")
         @Fetch(FetchMode.SUBSELECT)
+        @Cascade(CascadeType.ALL)
         private List<Section> sections;
 
         private String number;

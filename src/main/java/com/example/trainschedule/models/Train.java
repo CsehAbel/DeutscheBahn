@@ -55,8 +55,7 @@ public class Train {
         @Cascade(CascadeType.ALL)
         private List<Waggon> waggons;
 
-        @ElementCollection
-        private List<String> trainNumber;
+        private String trainNumber;
 
 
         @OneToMany(mappedBy = "train")
@@ -124,11 +123,11 @@ public class Train {
                 this.track = track;
         }
 
-        public List<String> getTrainNumber() {
+        public String getTrainNumber() {
                 return trainNumber;
         }
 
-        public void setTrainNumber(List<String> trainNumber) {
+        public void setTrainNumber(String trainNumber) {
                 this.trainNumber = trainNumber;
         }
 }
