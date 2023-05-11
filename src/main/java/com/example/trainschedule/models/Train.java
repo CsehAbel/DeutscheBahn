@@ -23,6 +23,8 @@ package com.example.trainschedule.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -50,6 +52,7 @@ public class Train {
 
 
         @OneToMany(mappedBy = "train")
+        @Fetch(FetchMode.SUBSELECT)
         private List<Waggon> waggons;
 
 

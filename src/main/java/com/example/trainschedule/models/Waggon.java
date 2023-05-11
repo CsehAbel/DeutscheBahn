@@ -15,6 +15,8 @@ package com.example.trainschedule.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class Waggon {
         @JoinTable(name = "waggon_section",
                 joinColumns = @jakarta.persistence.JoinColumn(name = "waggon_id"),
                 inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "section_id"))
+        @Fetch(FetchMode.SUBSELECT)
         private List<Section> sections;
 
         private String number;
