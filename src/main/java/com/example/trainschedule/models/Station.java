@@ -29,6 +29,10 @@ public class Station {
     private String name;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="from",column=@Column(name="fromDate")),
+            @AttributeOverride(name="to",column=@Column(name="toDate"))
+            })
     private Validity validity;
 
     @OneToMany(mappedBy = "station")
@@ -42,6 +46,14 @@ public class Station {
         this.name = name;
         this.validity = validity;
         this.tracks = tracks;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getShortcode() {
