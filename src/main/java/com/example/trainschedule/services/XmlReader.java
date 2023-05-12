@@ -157,12 +157,19 @@ public class XmlReader {
                 }
                 else if(element.getNodeName().equals("track")){
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
-                    Integer number = Integer.parseInt(element.getElementsByTagName("number").item(0).getTextContent());
-                    List<Object> trains = new ArrayList<>();
-                    this.parseTrain(element.getElementsByTagName("trains").item(0).getChildNodes(),"train",trains);
-                    Object obj=this.createTrack(name,number,trains);
-                    objectsList.add(obj);
-                    this.persistHook(trains,"trains",obj);
+                    Integer number;
+                    try{
+                        number = Integer.parseInt(element.getElementsByTagName("number").item(0).getTextContent());
+                        List<Object> trains = new ArrayList<>();
+                        this.parseTrain(element.getElementsByTagName("trains").item(0).getChildNodes(),"train",trains);
+                        Object obj=this.createTrack(name,number,trains);
+                        objectsList.add(obj);
+                        this.persistHook(trains,"trains",obj);
+                        System.out.println("Number is not a number");
+                    } catch (NumberFormatException e){
+                        System.out.println("Track.number is not a number: "+element.getElementsByTagName("number").item(0).getTextContent());
+                    }
+
                 }
                 else if (element.getNodeName().equals("train")) {
                     //create a train object
@@ -172,6 +179,8 @@ public class XmlReader {
                     String anno = element.getElementsByTagName("anno").item(0).getTextContent();
                     String time = element.getElementsByTagName("time").item(0).getTextContent();
                     String additionalText = element.getElementsByTagName("additionalText").item(0).getTextContent();
+                    //additionalText should fit varying(255)
+                    additionalText = additionalText.substring(0,Math.min(additionalText.length(),255));
 
                     List<Object> waggons = new ArrayList<>();
                     this.parseTrain(element.getElementsByTagName("waggons").item(0).getChildNodes(),"waggon",waggons);
