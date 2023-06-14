@@ -41,7 +41,7 @@ public class PersistStationsTest {
             Waggon waggon = (Waggon) obj;
             //persist waggon
             waggonRepository.save(waggon);
-            waggonRepository.findById(""+waggon.getId());
+            waggonRepository.findById(waggon.getId());
         }
         //Section
         else if (tagName.equals("section")) {

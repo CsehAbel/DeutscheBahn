@@ -136,10 +136,10 @@
 							<length>2</length>
 						</waggon>
 					</waggons>
-                        <traintypes>
-                            <traintype>IC</traintype>
-                        </traintypes>
-                    </train>
+					<traintypes>
+						<traintype>IC</traintype>
+					</traintypes>
+				</train>
 				<train>
 					<trainNumbers>
 						<trainNumber>657</trainNumber>
